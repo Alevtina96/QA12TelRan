@@ -10,15 +10,23 @@ import java.util.Collection;
 import java.util.List;
 
 public class Registration extends TestBase {
-
     //WebDriver wd;
+    @BeforeMethod
+    public void preCondition(){
+        if(app.getUser().isLogged()){
+            app.getUser().logout();
+        }
+    }
 
-@BeforeMethod
-public void preCondition(){
-//    if(isLogged()){
-//        logout();
+//    public void logout() {
+//        click(By.xpath("//button[text()='Sign Out']"));
 //    }
-}
+//
+//    private boolean isLogged() {
+//        return isElementPresent(By.xpath("//button[text()='Sign Out']"));
+//    }
+
+
     @Test
     public void successRegisrationTest(){
 
@@ -27,10 +35,11 @@ public void preCondition(){
         String password = "Nnoa12345$";
         System.out.println("Email: " +email);
 
-        openLoginRegistrationForm();
-        fillLoginRegistrationForm(email,password);
-        submitLoginRegistrationForm();
-        Assert.assertTrue(isElementPresent(By.xpath("//button[text()='Sign Out']")));
+        app.getUser().openLoginRegistrationForm();
+        app.getUser().fillLoginRegistrationForm(email,password);
+        app.getUser().submitRegistrationForm();
+        Assert.assertTrue(app.getUser().isLogged());
+        //Assert.assertTrue(app.getUser().isElementPresent(By.xpath("//button[text()='Sign Out']")));
 
 
     }
@@ -42,32 +51,14 @@ public void preCondition(){
         String password = "Nnoa12345$";
         System.out.println("Email: " +email);
 
-        openLoginRegistrationForm();//open LoginRegistration form
-        fillLoginRegistrationForm(email,password);//fill LoginRegistration form
-        submitLoginRegistrationForm();
-        //click();
-        //type();
-//        WebElement element = wd.findElement(By.cssSelector("[href='/login']"));
-//        element.click();
-//
-//        List<WebElement> list= wd.findElements(By.tagName("input"));
-//
-//        WebElement inputEmail=list.get(0);
-//        WebElement inputPassword=list.get(1);
-//
-//        inputEmail.click();
-//        inputEmail.clear();
-//        inputEmail.sendKeys("noa"+i+"gmail.com");
-//
-//        inputPassword.click();
-//        inputPassword.clear();
-//        inputPassword.sendKeys("Nnoa12345$");
-//
-//        WebElement buttonRegistration = wd.findElement(By.xpath("//*[text()=' tests.Registration']"));
-//        buttonRegistration.click();
+        app.getUser().openLoginRegistrationForm();
+        app.getUser().fillLoginRegistrationForm(email,password);
+        app.getUser().submitRegistrationForm();
+        app.getUser().pause(5000);
+        Assert.assertTrue(app.getUser().isWrongFormatPresent());
+
+
     }
-
-
 
 
 }
