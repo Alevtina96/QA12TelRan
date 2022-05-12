@@ -42,12 +42,12 @@ public class LoginTest extends TestBase {
     @Test
     public void fillLoginFormTest(){
         int i= (int) (System.currentTimeMillis()/1000)%3600;
-        User user = new User().withEmail("noa@gmail.com").withPassword("Nnoa12345$");
+        //User user = new User().withEmail("noa@gmail.com").withPassword("Nnoa12345$");
 
-//              User user = User.builder()
-//                .email("noagmail.com")
-//                .password("Nnoa12345$")
-//                .build();
+              User user = User.builder()
+                .email("noa@gmail.com")
+                .password("Nnoa12345$")
+                .build();
 
 
 //        int i= (int) (System.currentTimeMillis()/1000)%3600;

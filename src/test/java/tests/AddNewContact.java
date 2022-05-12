@@ -8,8 +8,8 @@ import org.testng.annotations.Test;
 
 import static tests.TestBase.app;
 
-public class AddNewContact {
-    //    @BeforeMethod
+public class AddNewContact extends TestBase {
+    //        @BeforeMethod
 //    public void preConditions() {
 //        if (!app.getUser().isLogged()) {
 //            app.getUser().login(new User()
@@ -20,31 +20,38 @@ public class AddNewContact {
     @BeforeMethod
     public void preCondition() {
         if (!app.getUser().isLogged()) {
-            app.getUser().login(User.builder())
+            app.getUser().login(User.builder()
                     .email("noa@gmail.com")
                     .password("Nnoa123455$")
                     .build());
         }
+    }
 
         @Test
         public void addNewContactSuccess() {
-
-
-            int index = (int) (System.currentTimeMillis() / 1000) % 3600;
+            int i = (int) (System.currentTimeMillis() / 1000) % 3600;
             System.out.println();
+            Contact contact = Contact.builder()
+                    .Name("Tina")
+                    .LastName("Tyan")
+                    .Phone("12345" + i)
+                    .email("tina" + i + "@gmail.com")
+                    .Address("Haifa")
+                    .description("friend")
+                    .build();
 
-
-            Contact contact = new Contact()
-                    .withName("Zoya")
-                    .withLastName("Snow")
-                    .withPhone("123456" + i)
-                    .withEmail("zoya" + i + "@gmail.cpm")
-                    .withAddress("Haifa")
-                    .withDescription("friend");
+//            Contact contact = new Contact()
+//                    .withName("Zoya")
+//                    .withLastName("Snow")
+//                    .withPhone("123456" + i)
+//                    .withEmail("zoya" + i + "@gmail.cpm")
+//                    .withAddress("Haifa")
+//                    .withDescription("friend");
             app.contact().openContactForm();
             app.contact().fillContactForm(contact);
             app.contact().saveContact();
-            app.contact().pause(2000);
+//            app.contact().pause(2000);
+
 
             Assert.assertTrue(app.contact().isContactCreateByName(contact.getName())); //if list contact with name + phone
             Assert.assertTrue(app.contact().isContactCreateByPhone(contact.getPhone()));
@@ -53,4 +60,5 @@ public class AddNewContact {
             //Assert.assertTrue(isContactPageDisplayed());
         }
     }
-}
+
+

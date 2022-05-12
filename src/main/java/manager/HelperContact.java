@@ -42,7 +42,7 @@ public class HelperContact  extends HelperBase {
     public boolean isContactCreateByName(String Name) {
         List<WebElement> list = wd.findElements(By.cssSelector("h2"));
         for (WebElement el : list) {
-            if (el.getText().equals(name))
+            if (el.getText().equals(Name))
                 return true;
         }
 return false;
@@ -50,7 +50,7 @@ return false;
     public boolean isContactCreateByPhone(String phone){
         List<WebElement> list = wd.findElements(By.cssSelector("h3"));
         for (WebElement el : list) {
-            if (el.getText().equals(name))
+            if (el.getText().equals(phone))
                 return true;
         }
         return false;

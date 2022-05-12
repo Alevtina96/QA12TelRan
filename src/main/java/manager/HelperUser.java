@@ -18,14 +18,12 @@ public class HelperUser extends HelperBase{
     public void openLoginRegistrationForm() {
         click(By.cssSelector("[href='/login']"));
     }
-    public void fillRegistrationForm(String email, String password) {
+    public void fillLoginRegistrationForm(String email, String password) {
 
         type(By.id("//input[1]"),email);
         type(By.id("//input[2]"),password);
-
-
     }
-    public void fillRegistrationForm(User user) {
+    public void fillLoginRegistrationForm(User user) {
 
         type(By.id("//input[1]"), user.getEmail());
         type(By.id("//input[2]"), user.getPassword());
@@ -64,7 +62,7 @@ else{
     }
     public void login(User user){
         openLoginRegistrationForm();
-        fillRegistrationForm(user);
+        fillLoginRegistrationForm(user);
         submitLogin();
 //        clickLoginBtn();
 //        type(By.xpath("//*[@placeholder='Email']"), user.email());
@@ -85,5 +83,9 @@ else{
             alert.accept();//prinat eto sms
             return error.contains("Wrong email or password format");
         }
+    }
+
+    public void submitRegistrationForm() {
+        click(By.xpath("//button[text()=' Registration']"));
     }
 }
