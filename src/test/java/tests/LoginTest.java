@@ -1,6 +1,7 @@
 package tests;//import org.junit.Test;
 //import org.junit.Test;
 
+import manager.MyDataProvider;
 import models.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -39,7 +40,8 @@ public class LoginTest extends TestBase {
     //element.click(); //click "LOGIN" button
     //element.clear();
     //element.sendKeys("Hello");//fill LoginRegistration form
-    @Test
+
+    @Test //(dataProvider = "fillLoginFormTest", dataProviderClass = MyDataProvider.class)
     public void fillLoginFormTest(){
         int i= (int) (System.currentTimeMillis()/1000)%3600;
         //User user = new User().withEmail("noa@gmail.com").withPassword("Nnoa12345$");
@@ -67,6 +69,64 @@ public class LoginTest extends TestBase {
 
     }
 
+    @Test //(dataProvider = "fillLoginFormTest", dataProviderClass = MyDataProvider.class)
+    public void fillLoginFormTestDataProvider(){
+        int i= (int) (System.currentTimeMillis()/1000)%3600;
+        //User user = new User().withEmail("noa@gmail.com").withPassword("Nnoa12345$");
+
+        User user = User.builder()
+                .email("noa@gmail.com")
+                .password("Nnoa12345$")
+                .build();
+
+
+//        int i= (int) (System.currentTimeMillis()/1000)%3600;
+//        String email = "noa"+i+"@gmail.com";
+//        String password = "Nnoa12345$";
+//        System.out.println("Email: " +email);
+
+        app.getUser().openLoginRegistrationForm();
+        //app.getUser().fillLoginRegistrationForm(email,password);
+        app.getUser().fillLoginRegistrationForm(user);
+        app.getUser().submitLogin();
+        app.getUser().pause(5000);
+        Assert.assertTrue(app.getUser().isLogged());
+
+
+//
+
+    }
+    @Test
+    public void loginSuccessTestDataProvider(User user) { //User user
+//         User user = new User().withEmail("noa@gmail.com").withPassword("Nnoa12345$");
+//
+//              User user = User.builder()
+//                .email("noagmail.com")
+//                .password("Nnoa12345$")
+//                .build();
+        app.getUser().openLoginRegistrationForm();
+        app.getUser().fillLoginRegistrationForm(user);
+        app.getUser().submitLogin();
+        app.getUser().pause(5000);
+        Assert.assertTrue(app.getUser().isLogged());
+    }
+
+    @Test
+    public void loginSuccessTestModel() {
+        //User user = new User().withEmail("noa@gmail.com").withPassword("Nnoa12345$");
+        int i= (int) (System.currentTimeMillis()/1000)%3600;
+
+        app.getUser().openLoginRegistrationForm();
+        User user = User.builder()
+                .email("noa@gmail.com")
+                .password("Nnoa12345$")
+                .build();
+
+        app.getUser().fillLoginRegistrationForm(user);
+        app.getUser().submitLogin();
+        app.getUser().pause(5000);
+        Assert.assertTrue(app.getUser().isLogged());
+    }
     @Test
     public void negativeLoginTest(){
 
@@ -80,6 +140,17 @@ public class LoginTest extends TestBase {
         app.getUser().submitLogin();
        // app.getUser().pause(5000);
         Assert.assertTrue(app.getUser().isWrongFormatPresent());
+    }
+
+    @Test(dataProvider = "loginValidDataModel", dataProviderClass = MyDataProvider.class)
+    public void loginSuccessTestModelDataProvider(User user) {
+        //User user = new User().withEmail("noa@gmail.com").withPassword("Nnoa12345$");
+
+        app.getUser().openLoginRegistrationForm();
+        app.getUser().fillLoginRegistrationForm(user);
+        app.getUser().submitLogin();
+        app.getUser().pause(5000);
+        Assert.assertTrue(app.getUser().isLogged());
     }
     }
 

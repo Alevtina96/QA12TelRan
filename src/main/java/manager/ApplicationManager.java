@@ -39,6 +39,9 @@ public class ApplicationManager {
         wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         user = new HelperUser(wd);
         contact = new HelperContact(wd);
+
+        wd.register(new MyListener());
+
     }
 
     public void stop(){

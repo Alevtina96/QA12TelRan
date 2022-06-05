@@ -30,6 +30,12 @@ public class HelperContact  extends HelperBase {
         pause(3000);
     }
 
+    public void isContactPageDisplayed(){
+    }
+    public void login() {
+        click(By.xpath("//button[text()='Sign Out']"));
+    }
+
     public boolean isContactCreateByName(String name) {
         List<WebElement> list = wd.findElements(By.cssSelector("h2"));
         for (WebElement el:list) {

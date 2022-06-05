@@ -1,4 +1,5 @@
 package tests;
+import manager.MyDataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import models.Contact;
@@ -28,42 +29,97 @@ public class AddNewContact extends TestBase {
         }
     }
 
-        @Test(invocationCount = 3)
-        public void addNewContactSuccess() {
-            int countStart = app.contact().countOfContacts();
-            logger.info("The test 'Add new contact starts with count of contact---->"+countStart );
-            int i = (int) (System.currentTimeMillis() / 1000) % 3600;
-            System.out.println();
-            Contact contact = Contact.builder()
-                    .Name("Tina")
-                    .LastName("Tyan")
-                    .Phone("12345" + i)
-                    .email("tina" + i + "@gmail.com")
-                    .Address("Haifa")
-                    .description("friend")
-                    .build();
-            int countEnd = app.contact().countOfContacts();
-            logger.info("The test 'Add new contact' ends with count of contact in the end --->"+countEnd);
-            //            Contact contact = new Contact()
+    @Test(invocationCount = 3)
+    public void addNewContactSuccess() {
+        int countStart = app.contact().countOfContacts();
+        logger.info("The test 'Add new contact starts with count of contact---->" + countStart);
+        int i = (int) (System.currentTimeMillis() / 1000) % 3600;
+        System.out.println();
+        Contact contact = Contact.builder()
+                .Name("Tina")
+                .LastName("Tyan")
+                .Phone("12345" + i)
+                .email("tina" + i + "@gmail.com")
+                .Address("Haifa")
+                .description("friend")
+                .build();
+        int countEnd = app.contact().countOfContacts();
+        logger.info("The test 'Add new contact' ends with count of contact in the end --->" + countEnd);
+        //            Contact contact = new Contact()
 //                    .withName("Zoya")
 //                    .withLastName("Snow")
 //                    .withPhone("123456" + i)
 //                    .withEmail("zoya" + i + "@gmail.cpm")
 //                    .withAddress("Haifa")
 //                    .withDescription("friend");
+        app.contact().pause(2000);
+//        app.contact().openContactForm();
+//        app.contact().fillContactForm(contact);
+//        app.contact().saveContact();
+
+
+        Assert.assertEquals(countEnd - countStart, 1);
+        Assert.assertTrue(app.contact().isContactCreateByName(contact.getName())); //if list contact with name + phone
+        Assert.assertTrue(app.contact().isContactCreateByPhone(contact.getPhone()));
+
+        @Test (dataProvider = "addContactValidDataCSV",dataProviderClass = MyDataProvider.class)
+        public void addNewContactSuccessScv (Contact contact) {
+            int countStart = app.contact().countOfContacts();
+            //logger.info("The test 'Add new contact starts with count of contact---->" + countStart);
+            //int i = (int) (System.currentTimeMillis() / 1000) % 3600;
+//            System.out.println();
+//            Contact contact = Contact.builder().build()
+//                    .withName("Zoa")
+//                    .withLastName("Snow")
+//                    .withPhone("1234567890" + i)
+//                    .withEmail("zoa" + i + "@gmail.com")
+//                    .withAddress("Haifa")
+//                    .withDescription("friend");
+
             app.contact().openContactForm();
             app.contact().fillContactForm(contact);
             app.contact().saveContact();
-//            app.contact().pause(2000);
 
-            Assert.assertEquals(countEnd-countStart,1);
+            //logger.info("The test 'Add new contact' ends with count of contact in the end --->" + countEnd);
+
+
+            int countEnd = app.contact().countOfContacts();
+            app.contact().pause(2000);
+//        Assert.assertTrue(isContactPageDisplayed());
+            Assert.assertEquals(countEnd - countStart, 1);
             Assert.assertTrue(app.contact().isContactCreateByName(contact.getName())); //if list contact with name + phone
             Assert.assertTrue(app.contact().isContactCreateByPhone(contact.getPhone()));
-
-
-            //Assert.assertTrue(isContactPageDisplayed());
         }
 
+        @Test//(dataProvider = "ContactValidData",dataProviderClass = MyDataProvider.class)
+        public void addNewContactSuccessNew(){
+            int countStart = app.contact().countOfContacts();
+            logger.info("The test 'Add new contact starts with count of contact---->"+countStart );
+
+            int index= (int) (System.currentTimeMillis()/1000)%3600;
+
+            Contact contact = new Contact()
+                    .withName("Zoa")
+                    .withLastName("Snow")
+                    .withPhone("1234567" + index)
+                    .withEmail("zoa"+index+ "@gmail.com")
+                    .withAddress("Haifa")
+                    .withDescription("friend");
+            app.contact().openContactForm();
+            app.contact().fillContactForm(contact);
+            app.contact().saveContact();
+
+            int countEnd = app.contact().countOfContacts();
+            logger.info("The test 'Add new contact' ends with count of contact in the end --->"+countEnd);
+
+            app.contact().pause(2000);
+
+            Assert.assertEquals(countEnd-countStart,1);
+            Assert.assertTrue(app.contact().isContactCreateByName(contact.getName()));
+            Assert.assertTrue(app.contact().isContactCreateByPhone(contact.getPhone()));
     }
+}
+
+
 
 
